@@ -41,17 +41,17 @@ enum isNumStates {
 	ERROR
 };
 
-void CommLineArgs(int argc,
-                  char ** argv,
-                  int *rows,
-                  int *cols,
-                  int *seed,
-									int *gran,
-                  int *print
-                );
+// void CommLineArgs(int argc,
+//                   char ** argv,
+//                   int *rows,
+//                   int *cols,
+//                   int *seed,
+// 									int *gran,
+//                   int *print
+//                 );
+//
+// int isNumber(const char * str);
 
-int isNumber(const char * str);
-
-int calcSum(int * array, int size);
+int mybarrier(MPI_Comm mcw);
 
 #endif
