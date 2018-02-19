@@ -6,18 +6,20 @@
 
 int mybarrier(MPI_Comm mcw)
 {
-  // Process: Gather check-in notifications on world_rank 0.
-    // Question: Who am I waiting on to check-in with me?
-    // Question: To whom am I sending my notification?
+  int world_rank;
+  MPI_Comm_rank(MCW, &world_rank);
+  int world_size;
+  MPI_Comm_size(MCW, &world_size);
 
-  // When all check-ins are complete, continue...
+  int level, offset, sender, receiver, tag = 0, sig = 1;
+  MPI_status status;
 
-  // Process: Broadcast all-clear notifications to all processes.
-    // Question: Who am I waiting on for the all-clear signal?
-    // Question: To whom do I send the all clear signal?
+  // Initial loop....
 
-  // Once the all clear signal has been received and retransmitted, the
-  // process may exit the function.
+  tag++;
+
+// Final loop....
+
   return 0;
 }
 
