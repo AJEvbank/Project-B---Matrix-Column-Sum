@@ -12,7 +12,7 @@ int mybarrier(MPI_Comm mcw)
   MPI_Comm_size(MCW, &world_size);
 
   int level, offset, sender, receiver, tag = 0, sig = 1;
-  MPI_status status;
+  MPI_Status status;
 
   // Initial loop....
 
