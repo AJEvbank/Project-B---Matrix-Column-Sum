@@ -7,9 +7,9 @@
 int mybarrier(MPI_Comm mcw)
 {
   int world_rank;
-  MPI_Comm_rank(MCW, &world_rank);
+  MPI_Comm_rank(mcw, &world_rank);
   int world_size;
-  MPI_Comm_size(MCW, &world_size);
+  MPI_Comm_size(mcw, &world_size);
 
   int level, offset, sender, receiver, tag = 0, sig = 1;
   MPI_Status status;
@@ -25,8 +25,7 @@ int mybarrier(MPI_Comm mcw)
       }
       else if((world_rank % level) == 0){
         //receive
-        int dummy;
-        MPI_Recv(&dummy, 1, MPI_INT,
+        MPI_Recv(&sig, 1, MPI_INT,
           world_rank + offset, MPI_ANY_TAG, mcw);
       }
       else {
