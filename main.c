@@ -12,9 +12,10 @@ int main(int argc, char ** argv)
   {
     printf("World_size = %d.\n\n",world_size);
   }
-  
+
   printf("Rank: %d PRE-barrier.\n",world_rank);
 
+  if (world_rank == 1) sleep(5);
   mybarrier(MCW);
 
   printf("Rank: %d POST-barrier.\n",world_rank);
