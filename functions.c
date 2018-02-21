@@ -35,7 +35,30 @@ int mybarrier(MPI_Comm mcw)
 
   tag++;
 
-  // Final loop....
+  // Broadcast of all-clear signal from world_rank 0.
+  for (level = world_size,
+       offset = world_size/2;
+       level >= 2;
+       level = level / 2,
+       offset = offset / 2
+       )
+   {
+     if ((world_rank % level) == 0)
+     {
+       // Process is a sender and must relay its all-clear to its recipient.
+    MPI_Send(&sig,1,MPI_INT,world_rank + offset,MPI_ANY_TAG,mcw).
+     }
+     else if ((world_rank % level) == offset)
+     {
+       // Process is a receiver and must wait for a check-in from its sender.
+       MPI_Recv(&sig,1,MPI_INT,world_rank - offset,MPI_ANY_TAG,mcw,&status).
+     }
+     else
+     {
+       // Process is neither a sender nor a receiver on this iteration.
+       continue
+     }
+}
 
   return 0;
 }
