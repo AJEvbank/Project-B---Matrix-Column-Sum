@@ -82,4 +82,6 @@ for (level = world_size,
    }
  }
 
-Note: All sends and receives are blocking calls.
+Note: All sends and receives are blocking calls. No process can leave the
+function until all other processes have entered. The time complexity of the
+function is 2logP where P is the world size and must be a power of 2.
