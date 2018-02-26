@@ -14,6 +14,7 @@ int mybarrier(MPI_Comm mcw)
 
   int level, offset, tag = 0, sig = 1;
   MPI_Status status;
+  MPI_Request request;
 
   // Main loop....
   for(
@@ -24,12 +25,12 @@ int mybarrier(MPI_Comm mcw)
   {
       if((world_rank % level) < offset)
       {
-        MPI_Send(&world_rank, 1, MPI_INT, world_rank + offset, tag, mcw);
+        MPI_Isend(&world_rank, 1, MPI_INT, world_rank + offset, tag, mcw, &request);
         MPI_Recv(&sig, 1, MPI_INT, world_rank + offset, tag, mcw, &status);
       }
       else if((world_rank % level) >= offset)
       {
-        MPI_Send(&world_rank, 1, MPI_INT, world_rank - offset, tag, mcw);
+        MPI_Isend(&world_rank, 1, MPI_INT, world_rank - offset, tag, mcw, &request);
         MPI_Recv(&sig, 1, MPI_INT, world_rank - offset, tag, mcw, &status);
       }
       tag++;
