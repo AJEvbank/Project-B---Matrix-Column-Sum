@@ -54,4 +54,6 @@ enum isNumStates {
 
 int mybarrier(MPI_Comm mcw);
 
+int getMax(int world_size);
+
 #endif

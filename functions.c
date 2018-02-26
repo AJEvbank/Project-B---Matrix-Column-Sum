@@ -13,10 +13,11 @@ int mybarrier(MPI_Comm mcw)
 
   int level, offset, tag = 0, sig = 1;
   MPI_Status status;
+  int max = getMax(world_size);
 
   // Initial loop....
   for(level = 2, offset = 1;
-    level <= world_size;
+    level <= max;
     level = level * 2, offset = offset * 2){
       if((world_rank % level) == offset){
         //send
@@ -24,9 +25,12 @@ int mybarrier(MPI_Comm mcw)
           world_rank - offset, tag, mcw);
       }
       else if((world_rank % level) == 0){
-        //receive
-        MPI_Recv(&sig, 1, MPI_INT,
-          MPI_ANY_SOURCE, MPI_ANY_TAG, mcw, &status);
+        //receive iff the sender actually exists
+        if ((world_rank + offset) < world_size)
+        {
+          MPI_Recv(&sig, 1, MPI_INT,
+            world_rank + offset, MPI_ANY_TAG, mcw, &status);
+        }
       }
       else {
         continue;
@@ -38,8 +42,8 @@ int mybarrier(MPI_Comm mcw)
   sleep(3);
 
   // Broadcast of all-clear signal from world_rank 0.
-  for (level = world_size,
-       offset = world_size/2;
+  for (level = max,
+       offset = max/2;
        level >= 2;
        level = level / 2,
        offset = offset / 2
@@ -47,13 +51,17 @@ int mybarrier(MPI_Comm mcw)
    {
      if ((world_rank % level) == 0)
      {
-       // Process is a sender and must relay its all-clear to its recipient.
-       MPI_Send(&sig,1,MPI_INT,world_rank + offset,tag,mcw);
+       // Process is a sender and must relay its all-clear to its recipient,
+       // but only if the recipient actually exists.
+       if ((world_rank + offset) < world_size)
+       {
+         MPI_Send(&sig,1,MPI_INT,world_rank + offset,tag,mcw);
+       }
      }
      else if ((world_rank % level) == offset)
      {
        // Process is a receiver and must wait for a check-in from its sender.
-       MPI_Recv(&sig,1,MPI_INT,MPI_ANY_SOURCE,MPI_ANY_TAG,mcw,&status);
+       MPI_Recv(&sig,1,MPI_INT,world_rank - offset,MPI_ANY_TAG,mcw,&status);
      }
      else
      {
@@ -63,6 +71,16 @@ int mybarrier(MPI_Comm mcw)
 }
 
   return 0;
+}
+
+int getMax(int world_size)
+{
+  int start = 2;
+  while (start <= world_size)
+  {
+    start *= 2;
+  }
+  return start;
 }
 
 #endif
