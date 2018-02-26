@@ -12,6 +12,10 @@ int main(int argc, char ** argv)
   {
     printf("World_size = %d.\n\n",world_size);
   }
+  else
+  {
+    sleep(1);
+  }
 
   printf("Rank: %d PRE-barrier.\n",world_rank);
 
