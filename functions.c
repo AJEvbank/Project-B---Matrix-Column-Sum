@@ -69,7 +69,6 @@ int mybarrier(MPI_Comm mcw)
        continue;
      }
 }
-
   return 0;
 }
 
