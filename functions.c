@@ -18,9 +18,9 @@ int mybarrier(MPI_Comm mcw)
 
   // Main loop....
   for(
-      level = 2, offset = 1;
-      level <= max;
-      level = level * 2, offset = offset * 2
+      level = max, offset = max/2;
+      level >= 2;
+      level = level / 2, offset = offset / 2
      )
   {
       if((world_rank % level) < offset)
@@ -39,9 +39,30 @@ int mybarrier(MPI_Comm mcw)
       tag++;
   }
 
+  // for(
+  //     level = 2, offset = 1;
+  //     level <= max;
+  //     level = level * 2, offset = offset * 2
+  //    )
+  // {
+  //     if((world_rank % level) < offset)
+  //     {
+  //       if ((world_rank + offset) < world_size)
+  //       {
+  //         MPI_Isend(&world_rank, 1, MPI_INT, world_rank + offset, tag, mcw, &request);
+  //         MPI_Recv(&sig, 1, MPI_INT, world_rank + offset, tag, mcw, &status);
+  //       }
+  //     }
+  //     else if((world_rank % level) >= offset)
+  //     {
+  //       MPI_Isend(&world_rank, 1, MPI_INT, world_rank - offset, tag, mcw, &request);
+  //       MPI_Recv(&sig, 1, MPI_INT, world_rank - offset, tag, mcw, &status);
+  //     }
+  //     tag++;
+  // }
 
-  // printf("%d going to sleep...\n",world_rank);
-  // sleep(3);
+
+
 
   // Broadcast of all-clear signal from world_rank 0.
   // for (level = world_size,
