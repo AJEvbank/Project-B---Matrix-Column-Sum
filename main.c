@@ -7,6 +7,7 @@ int main(int argc, char ** argv)
   MPI_Comm_rank(MCW, &world_rank);
   int world_size;
   MPI_Comm_size(MCW, &world_size);
+  srand(world_size);
 
   if (world_rank == 0)
   {
@@ -19,7 +20,7 @@ int main(int argc, char ** argv)
 
   printf("Rank: %d PRE-barrier.\n",world_rank);
 
-  if (world_rank == 1) { printf("World Rank %d going to sleep in MAIN.\n",world_rank); sleep(5);}
+  if (world_rank == 8/*(rand()%world_size)*/) { printf("World Rank %d going to sleep in MAIN.\n",world_rank); sleep(5);}
   mybarrier(MCW);
 
   printf("Rank: %d POST-barrier.\n",world_rank);

@@ -18,9 +18,9 @@ int mybarrier(MPI_Comm mcw)
 
   // Main loop....
   for(
-      level = max, offset = max/2;
-      level >= 2;
-      level = level / 2, offset = offset / 2
+      level = 2, offset = 1;
+      level <= max;
+      level = level * 2, offset = offset * 2
      )
   {
       if((world_rank % level) < offset)
@@ -40,9 +40,9 @@ int mybarrier(MPI_Comm mcw)
   }
 
   // for(
-  //     level = 2, offset = 1;
-  //     level <= max;
-  //     level = level * 2, offset = offset * 2
+  //     level = max, offset = max/2;
+  //     level >= 2;
+  //     level = level / 2, offset = offset / 2
   //    )
   // {
   //     if((world_rank % level) < offset)
@@ -60,8 +60,6 @@ int mybarrier(MPI_Comm mcw)
   //     }
   //     tag++;
   // }
-
-
 
 
   // Broadcast of all-clear signal from world_rank 0.
