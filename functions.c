@@ -25,11 +25,8 @@ int mybarrier(MPI_Comm mcw)
   {
       if((world_rank % level) < offset)
       {
-        if ((world_rank + offset) < world_size)
-        {
-          MPI_Isend(&world_rank, 1, MPI_INT, world_rank + offset, tag, mcw, &request);
-          MPI_Recv(&sig, 1, MPI_INT, world_rank + offset, tag, mcw, &status);
-        }
+        MPI_Isend(&world_rank, 1, MPI_INT, world_rank + offset, tag, mcw, &request);
+        MPI_Recv(&sig, 1, MPI_INT, world_rank + offset, tag, mcw, &status);        
       }
       else if((world_rank % level) >= offset)
       {
