@@ -74,12 +74,12 @@ int mybarrier(MPI_Comm mcw)
 
 int getMax(int world_size)
 {
-  int start = 2;
-  while (start <= world_size)
+  int max = 2;
+  while (max < world_size)
   {
-    start *= 2;
+    max *= 2;
   }
-  return start;
+  return max;
 }
 
 #endif

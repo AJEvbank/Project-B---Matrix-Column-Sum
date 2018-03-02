@@ -9,6 +9,7 @@
 #include <math.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 #include "getopt.h"
 
 
