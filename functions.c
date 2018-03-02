@@ -12,7 +12,8 @@ int mybarrier(MPI_Comm mcw)
   MPI_Comm_size(mcw, &world_size);
   printf("%d entered function\n",world_rank);
 
-  int level, offset, tag = 0, sig = 1, max = getMax(world_size);
+  int level, offset, tag = 0, sig = 1;
+  //int max = getMax(world_size);
   MPI_Status status;
   MPI_Request request;
 
@@ -20,7 +21,7 @@ int mybarrier(MPI_Comm mcw)
   //printf("max = %d\n",max);
   for(
       level = 2, offset = 1;
-      level <= max;
+      level <= world_size;
       level = level * 2, offset = offset * 2
      )
   {

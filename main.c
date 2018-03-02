@@ -7,7 +7,7 @@ int main(int argc, char ** argv)
   MPI_Comm_rank(MCW, &world_rank);
   int world_size;
   MPI_Comm_size(MCW, &world_size);
-  srand(world_size);
+  srand(time(NULL));
 
   if (world_rank == 0)
   {
